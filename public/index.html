@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c0f14">
+  <title>Ludo Four — Room-Code Multiplayer</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Ludo Four home">LUDO<span>FOUR</span></a>
+    <div class="connection" aria-live="polite">
+      <span id="connection-dot" class="connection-dot"></span>
+      <span id="connection-text">Connecting</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="landing" class="view landing">
+      <div class="landing-copy">
+        <p class="eyebrow">Room-code multiplayer</p>
+        <h1>Four players.<br><em>One board.</em></h1>
+        <p class="lede">
+          Create a room, share the six-character code, and race three friends to bring
+          all four tokens home. Every roll, capture and turn is synced live.
+        </p>
+        <div class="feature-row">
+          <span>4 seats</span>
+          <span>Live turns</span>
+          <span>Reconnect safe</span>
+        </div>
+      </div>
+
+      <div class="card entry-card">
+        <label for="name">Your name</label>
+        <input id="name" maxlength="20" autocomplete="nickname" placeholder="e.g. Ayush">
+
+        <button id="create" class="primary" type="button">Create a room</button>
+
+        <div class="divider"><span>or join with a code</span></div>
+
+        <div class="join-row">
+          <input id="code" class="code-input" maxlength="6" autocomplete="off"
+                 spellcheck="false" placeholder="ABC123" aria-label="Room code">
+          <button id="join" class="secondary" type="button">Join</button>
+        </div>
+
+        <p id="entry-error" class="error" role="alert"></p>
+        <p class="fineprint">Rooms hold exactly four players. The host starts once everyone is seated.</p>
+      </div>
+    </section>
+
+    <section id="lobby" class="view hidden">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Waiting room</p>
+          <h2>Share this code</h2>
+        </div>
+        <button id="leave-lobby" class="ghost" type="button">Leave</button>
+      </div>
+
+      <div class="room-code-card">
+        <span id="room-code" class="room-code">------</span>
+        <button id="copy-code" class="secondary small" type="button">Copy code</button>
+      </div>
+
+      <div id="seat-grid" class="seat-grid" aria-live="polite"></div>
+
+      <div class="lobby-actions">
+        <p id="lobby-status" class="muted"></p>
+        <button id="start" class="primary" type="button" disabled>Start game</button>
+      </div>
+    </section>
+
+    <section id="game" class="view hidden">
+      <div class="section-head game-head">
+        <div>
+          <p class="eyebrow">Room <span id="game-code"></span></p>
+          <h2 id="game-title">Game</h2>
+        </div>
+        <button id="leave-game" class="ghost" type="button">Leave</button>
+      </div>
+
+      <div class="game-layout">
+        <aside id="players-panel" class="panel players-panel" aria-label="Players"></aside>
+
+        <div class="board-wrap">
+          <div id="board" class="board" aria-label="Ludo board"></div>
+          <div id="winner" class="winner hidden" role="status">
+            <p class="eyebrow">Game over</p>
+            <h3 id="winner-text"></h3>
+            <button id="rematch" class="primary hidden" type="button">Rematch</button>
+            <p id="rematch-hint" class="muted hidden">Waiting for the host to start a rematch.</p>
+          </div>
+        </div>
+
+        <aside class="panel control-panel">
+          <div class="turn-card">
+            <p class="eyebrow">Current turn</p>
+            <div id="turn-badge" class="turn-badge">
+              <span id="turn-dot" class="turn-dot"></span>
+              <span id="turn-name">—</span>
+            </div>
+            <p id="turn-hint" class="muted">Waiting for players.</p>
+          </div>
+
+          <button id="dice" class="dice" type="button" aria-label="Roll dice">
+            <span id="dice-face" class="dice-face"></span>
+          </button>
+          <p id="dice-hint" class="muted centered">Roll to begin.</p>
+
+          <div class="log-wrap">
+            <p class="eyebrow">Table talk</p>
+            <ol id="log" class="log" aria-live="polite"></ol>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
